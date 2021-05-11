@@ -1,11 +1,54 @@
-const PROBABILIDAD_LLUVIA = 0.25
+function heredar(padre,hijo)
+{
+    hijo.prototype = padre.prototype
+    hijo.prototype = new padre
+    hijo.prototype.constructor = hijo
+}
 
-const estaLLoviendo = () => Math.random()<=PROBABILIDAD_LLUVIA
+function Persona(nombre,apellido, altura) 
+{
+    this.nombre = nombre
+    this.apellido = apellido
+    this.altura
+    this.especie = "Humano"
+}
 
-var contador = 0 
+heredar(Persona,Desarrollador)
 
-do{
-    contador++
-}while(!estaLLoviendo())
+Persona.prototype.soyAlto = function()
+{
+    if(this.altura<1.80)
+    {
+        console.log(`Yo ${this.nombre} ${this.apellido} no soy alto porque mido ${this.altura}`)
+    } else 
+    {
+        console.log(`Yo ${this.nombre} ${this.apellido} soy alto porque mido ${this.altura}`)
+    }
+}
 
-console.log(`Tuve que ir ${contador} hasta encontrar lluvia`)
+Persona.prototype.saludar = function()
+{
+    console.log(`Hola soy ${this.nombre} ${this.apellido} y soy celestina`)
+}
+
+function Desarrollador(nombre,apellido,estatus) 
+{
+    this.nombre = nombre
+    this.apellido = apellido
+    this.estatus = estatus
+}
+
+heredar(Persona,Desarrollador)
+
+Desarrollador.prototype.saludar = function()
+{
+    console.log(`Hola soy ${this.nombre} ${this.apellido} y soy ${this.estatus}`)
+}
+
+var andrea  = new Desarrollador("Andrea","Rodriguez","senior")
+
+andrea.saludar()
+andrea.altura = 1.80
+andrea.soyAlto()
+console.log(`Soy ${andrea.especie}`)
+
