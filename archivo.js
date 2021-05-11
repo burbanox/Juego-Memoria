@@ -1,54 +1,43 @@
-function heredar(padre,hijo)
+class Persona 
 {
-    hijo.prototype = padre.prototype
-    hijo.prototype = new padre
-    hijo.prototype.constructor = hijo
-}
-
-function Persona(nombre,apellido, altura) 
-{
-    this.nombre = nombre
-    this.apellido = apellido
-    this.altura
-    this.especie = "Humano"
-}
-
-heredar(Persona,Desarrollador)
-
-Persona.prototype.soyAlto = function()
-{
-    if(this.altura<1.80)
+    constructor(nombre,apellido,altura)
     {
-        console.log(`Yo ${this.nombre} ${this.apellido} no soy alto porque mido ${this.altura}`)
-    } else 
+        this.nombre = nombre
+        this.apellido = apellido
+        this.altura = altura
+    }
+
+    saludar()
     {
-        console.log(`Yo ${this.nombre} ${this.apellido} soy alto porque mido ${this.altura}`)
+        console.log(`Hola soy ${this.nombre} ${this.apellido} y mido ${this.altura}`)
     }
 }
 
-Persona.prototype.saludar = function()
+class Desarrollador extends Persona 
 {
-    console.log(`Hola soy ${this.nombre} ${this.apellido} y soy celestina`)
+    constructor(nombre,apellido,altura)
+    {
+        super(nombre,apellido,altura)
+    }
+
+    expertis()
+    {
+        var estatura;
+        if(this.altura<1.80)
+        {
+            estatura = "soy chiquito"
+        } else 
+        {
+            estatura = "soy grande"
+        }
+        console.log(`Hola soy ${this.nombre} ${this.apellido} ${estatura}`)
+    }
 }
 
-function Desarrollador(nombre,apellido,estatus) 
-{
-    this.nombre = nombre
-    this.apellido = apellido
-    this.estatus = estatus
-}
+var harold = new Desarrollador("Harold","Burbano",1.80)
+var valentina = new Desarrollador("Valentina","Burbanoo",1.60)
 
-heredar(Persona,Desarrollador)
-
-Desarrollador.prototype.saludar = function()
-{
-    console.log(`Hola soy ${this.nombre} ${this.apellido} y soy ${this.estatus}`)
-}
-
-var andrea  = new Desarrollador("Andrea","Rodriguez","senior")
-
-andrea.saludar()
-andrea.altura = 1.80
-andrea.soyAlto()
-console.log(`Soy ${andrea.especie}`)
-
+harold.saludar()
+harold.expertis()
+valentina.saludar()
+valentina.expertis()
