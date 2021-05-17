@@ -12,9 +12,9 @@ function comprobarRespuesta(palabra)
         var objeto = palabra.substr(0,p)
         if(objeto==="people/" || objeto==="starships/" || objeto==="planets/")
         {
-            var regex = new RegExp('.*[0-9]*/$');
-            if(regex.test(palabra))
+            if(palabra.match(/.*[0-9]+\/$/))
             {
+                console.log('true')
                 comprobacion = true;
             }
         }
@@ -37,7 +37,7 @@ function buscarPersonaje(entrada)
         var obj = { crossDomain : true }
         $.get(url,obj,function(data)
         {
-            console.log(`Esta id se trata de ${data.name}`)
+            console.log(`Esta id se trata de : ${data.name}`)
         })
     }
     else
