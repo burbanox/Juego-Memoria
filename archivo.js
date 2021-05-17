@@ -12,7 +12,8 @@ function comprobarRespuesta(palabra)
         var objeto = palabra.substr(0,p)
         if(objeto==="people/" || objeto==="starships/" || objeto==="planets/")
         {
-            if(palabra.match(/.*[0-9]+\/$/))
+            var regex = /.*[0-9]+\/$/;
+            if(regex.test(palabra))
             {
                 console.log('true')
                 comprobacion = true;
