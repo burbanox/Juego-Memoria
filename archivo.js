@@ -14,14 +14,18 @@ function obtenerDatos(id)
     })
 }
 
-function obtenerPersonaje(id)
+async function obtenerPersonaje(arreglo)
 {
-    obtenerDatos(id).then(saludar).catch(onError)
-}
-
-function saludar(personaje)
-{
-    console.log(`El id corresponde a : ${personaje.name}`)
+    var promesas = arreglo.map(id => obtenerDatos(id))
+    var personajes;
+    try
+    {
+        personajes = await Promise.all(promesas);
+        imprimirPersonajes(personajes,arreglo);
+    }catch(id)
+    {
+        onError(id)
+    }
 }
 
 function onError(id)
@@ -32,18 +36,28 @@ function onError(id)
 function entrada()
 {
     var id = prompt("Introduce el id de tu personaje : ");
-    obtenerPersonaje(id);
+    return id;
+}
+
+function imprimirPersonajes(arr,arr_id) 
+{
+    for(var i = 0;i<arr.length;i++)
+    {
+        console.log(`${arr_id[i]} : ${arr[i].name}`)
+    }
 }
 
 function interactividad()
 {
     var eleccion = true; 
+    var arr = [];
     while(eleccion)
     {
-        entrada()
+        arr.push(entrada())
         var respuesta = prompt("Deseas continuar ? : y/n")
         eleccion = respuesta==='y';
     }
+    var personajes = obtenerPersonaje(arr);
 }
 
 interactividad();
