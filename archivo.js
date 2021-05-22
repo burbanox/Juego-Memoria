@@ -1,63 +1,28 @@
-const API_URL = 'https://swapi.dev/api/people/';
+const botonInicio = document.getElementById('start-button');
+const redSection = document.getElementById('red-section');
+const greenSection = document.getElementById('green-section');
+const blueSection = document.getElementById('blue-section');
+const purpleSection = document.getElementById('purple-section');
 
-function obtenerDatos(id)
+class Juego 
 {
-    const API_URL = 'https://swapi.dev/api/people/';
-    var url = API_URL + id;
-    var obj = {crossDomain : true}
-    return new Promise((resolve,reject)=>
+    constructor()
     {
-        $.get(url,obj,(data)=>
-        {
-            resolve(data,id)
-        }).fail(()=>reject(id))
-    })
-}
+        this.inicializar();
+    }
 
-async function obtenerPersonaje(arreglo)
-{
-    var promesas = arreglo.map(id => obtenerDatos(id))
-    var personajes;
-    try
+    inicializar() 
     {
-        personajes = await Promise.all(promesas);
-        imprimirPersonajes(personajes,arreglo);
-    }catch(id)
-    {
-        onError(id)
+        botonInicio.classList.add('hiden');
     }
 }
 
-function onError(id)
+function empezarJuego()
 {
-    console.log(`La id \#${id} no se encuentra registrada`);
+    var juego = new Juego()
 }
 
-function entrada()
+function reiniciarJuego()
 {
-    var id = prompt("Introduce el id de tu personaje : ");
-    return id;
+    botonInicio.classList.remove('hiden')
 }
-
-function imprimirPersonajes(arr,arr_id) 
-{
-    for(var i = 0;i<arr.length;i++)
-    {
-        console.log(`${arr_id[i]} : ${arr[i].name}`)
-    }
-}
-
-function interactividad()
-{
-    var eleccion = true; 
-    var arr = [];
-    while(eleccion)
-    {
-        arr.push(entrada())
-        var respuesta = prompt("Deseas continuar ? : y/n")
-        eleccion = respuesta==='y';
-    }
-    var personajes = obtenerPersonaje(arr);
-}
-
-interactividad();
