@@ -93,3 +93,23 @@ body
 {
     display: none;
 }
+
+.sombreado-verde
+{
+    background-color: lightgreen;
+}
+
+.sombreado-rojo
+{
+    background-color: lightcoral;
+}
+
+.sombreado-purpura
+{
+    background-color: lightslategray;
+}
+
+.sombreado-azul
+{
+    background-color: lightblue;
+}
