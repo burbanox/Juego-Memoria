@@ -11,6 +11,13 @@ class Juego
         this.elegirColor = this.elegirColor.bind(this); 
         this.hoverColor = this.hoverColor.bind(this);
         this.colorNormal = this.colorNormal.bind(this);
+        this.eventoMouseDown = this.eventoMouseDown.bind(this);
+        this.eventoMouseUp = this.eventoMouseUp.bind(this);
+        this.nivel = 1;
+    }
+
+    iniciarJuego()
+    {
         this.inicializar();
         this.generarSecuencia();
         this.siguienteNivel();
@@ -19,7 +26,7 @@ class Juego
     inicializar() 
     {
         botonInicio.classList.add('hiden');
-        this.nivel = 1;
+        this.subnivel = 0;
         this.colores = 
         {
             redSection,
@@ -29,10 +36,6 @@ class Juego
         }
 
         this.intervalo = 500; //intervalo entre encedido y apagado de colores
-        this.colores.blueSection.removeEventListener('onmouseover',this.hoverColor);
-        this.colores.redSection.removeEventListener('onmouseover',this.hoverColor);
-        this.colores.greenSection.removeEventListener('onmouseover',this.hoverColor);
-        this.colores.purpleSection.removeEventListener('onmouseover',this.hoverColor);
     }
 
     generarSecuencia() 
@@ -68,7 +71,7 @@ class Juego
             const color = this.transformarSecuencia(this.numeros[i]);
             setTimeout(()=>this.iluminarColor(color),this.intervalo*2*i);
         }
-        setTimeout(()=>this.agregarHover(),1000 + this.intervalo*2*this.nivel);
+        setTimeout(()=>this.agregarMouseDown(),1000 + this.intervalo*2*this.nivel);
     }
     
     iluminarColor(color)
@@ -91,16 +94,56 @@ class Juego
         setTimeout(()=>this.apagarColor(color),this.intervalo);
     }
 
-    agregarHover()
+    agregarMouseDown()
     {
-        this.colores.blueSection.onmouseover = this.hoverColor;
-        this.colores.redSection.onmouseover = this.hoverColor;
-        this.colores.greenSection.onmouseover = this.hoverColor;
-        this.colores.purpleSection.onmouseover = this.hoverColor;
-        this.colores.blueSection.onmouseout = this.colorNormal
-        this.colores.redSection.onmouseout = this.colorNormal
-        this.colores.greenSection.onmouseout = this.colorNormal
-        this.colores.purpleSection.onmouseout = this.colorNormal
+        this.agregarApuntador();
+        this.colores.blueSection.onmousedown = this.eventoMouseDown;
+        this.colores.redSection.onmousedown = this.eventoMouseDown;
+        this.colores.greenSection.onmousedown = this.eventoMouseDown;
+        this.colores.purpleSection.onmousedown = this.eventoMouseDown;
+        this.colores.blueSection.onmouseup = this.eventoMouseUp;
+        this.colores.redSection.onmouseup = this.eventoMouseUp;
+        this.colores.greenSection.onmouseup = this.eventoMouseUp;
+        this.colores.purpleSection.onmouseup = this.eventoMouseUp;
+        this.colores.blueSection.onmouseleave = this.eventoMouseUp;
+        this.colores.redSection.onmouseleave = this.eventoMouseUp;
+        this.colores.greenSection.onmouseleave = this.eventoMouseUp;
+        this.colores.purpleSection.onmouseleave = this.eventoMouseUp;
+    }
+
+    agregarApuntador()
+    {
+        this.colores.redSection.classList.add('apuntar');
+        this.colores.blueSection.classList.add('apuntar');
+        this.colores.greenSection.classList.add('apuntar');
+        this.colores.purpleSection.classList.add('apuntar');
+    }
+
+    removerApuntadores()
+    {
+        this.colores.redSection.classList.remove('apuntar');
+        this.colores.blueSection.classList.remove('apuntar');
+        this.colores.greenSection.classList.remove('apuntar');
+        this.colores.purpleSection.classList.remove('apuntar');
+    }
+
+    eventoMouseDown(ev)
+    {
+        const COLOR_OBTENIDO = ev.target.dataset.color;
+        this.hoverColor(COLOR_OBTENIDO);
+    }
+    removerMauseDown()
+    {
+        this.colores.blueSection.onmousedown = undefined;
+        this.colores.redSection.onmousedown = undefined;
+        this.colores.greenSection.onmousedown = undefined;
+        this.colores.purpleSection.onmousedown = undefined;
+    }
+    eventoMouseUp(ev)
+    {
+        const COLOR_OBTENIDO = ev.target.dataset.color;
+        let colors = this.dataColorClase(COLOR_OBTENIDO);
+        this.apagarColor(colors);
     }
 
     colorNormal(ev)
@@ -125,11 +168,9 @@ class Juego
         this.apagarColor(colors)
     }
 
-    hoverColor(ev)
+    hoverColor(color)
     {
-        console.log('se esta haciendo hover sobre un elemento')
-        const COLOR = ev.target.dataset.color
-        switch(COLOR)
+        switch(color)
         {
             case 'rojo':
                 this.colores.redSection.classList.add('sombreado-rojo');
@@ -173,11 +214,38 @@ class Juego
         this.colores.greenSection.addEventListener('click',this.elegirColor)
         this.colores.purpleSection.addEventListener('click',this.elegirColor)
     }
-
+    removerEventosClick()
+    {
+        this.colores.blueSection.removeEventListener('click',this.elegirColor)
+        this.colores.redSection.removeEventListener('click',this.elegirColor)
+        this.colores.greenSection.removeEventListener('click',this.elegirColor)
+        this.colores.purpleSection.removeEventListener('click',this.elegirColor)
+    }
     elegirColor(ev)
     {
         const COLOR_OBTENIDO = ev.target.dataset.color;
         var numero = this.trasformarColorNumero(COLOR_OBTENIDO);
+    }
+
+    dataColorClase(color)
+    {
+        let colors;
+        switch(color)
+        {
+            case 'rojo':
+                colors = 'redSection';
+                break;
+            case 'verde':
+                colors = 'greenSection';
+                break;
+            case 'azul':
+                colors = 'blueSection';
+                break;
+            case 'morado':
+                colors = 'purpleSection';
+                 break;
+        }
+        return colors;
     }
 
     trasformarColorNumero(color)
@@ -194,14 +262,25 @@ class Juego
                 return 3;
         }
     }
+
+    resetearJuego()
+    {
+        this.inicializar();
+        this.removerApuntadores();
+        this.removerEventosClick();
+        this.removerMauseDown();
+    }
 }
 
 function empezarJuego()
 {
     let juego = new Juego()
+    juego.iniciarJuego();
 }
 
 function reiniciarJuego()
 {
+    let juego = new Juego();
+    juego.resetearJuego();
     botonInicio.classList.remove('hiden')
 }
