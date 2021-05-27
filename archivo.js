@@ -11,11 +11,14 @@ class Juego
         this.elegirColor = this.elegirColor.bind(this); 
         this.hoverColor = this.hoverColor.bind(this);
         this.colorNormal = this.colorNormal.bind(this);
+        this.resetearBotones = this.resetearBotones.bind(this);
+    }
+    iniciarJuego()
+    {
         this.inicializar();
         this.generarSecuencia();
         this.siguienteNivel();
     }
-
     inicializar() 
     {
         botonInicio.classList.add('hiden');
@@ -27,14 +30,16 @@ class Juego
             blueSection,
             purpleSection
         }
-
         this.intervalo = 500; //intervalo entre encedido y apagado de colores
-        this.colores.blueSection.removeEventListener('onmouseover',this.hoverColor);
-        this.colores.redSection.removeEventListener('onmouseover',this.hoverColor);
-        this.colores.greenSection.removeEventListener('onmouseover',this.hoverColor);
-        this.colores.purpleSection.removeEventListener('onmouseover',this.hoverColor);
     }
-
+    resetearBotones()
+    {
+        console.log('removiendo hover ')
+        this.colores.blueSection.onmouseover = undefined;
+        this.colores.redSection.onmouseover = undefined;
+        this.colores.greenSection.onmouseover = undefined;
+        this.colores.purpleSection.onmouseover = undefined;
+    }
     generarSecuencia() 
     {
         this.numeros = new Array(10).fill(0).map(n=> Math.floor(Math.random()*4))
@@ -142,7 +147,7 @@ class Juego
                 break;
             case 'morado':
                 this.colores.purpleSection.classList.add('sombreado-purpura');
-                     break;
+                break;
         }
 
     }
@@ -198,10 +203,14 @@ class Juego
 
 function empezarJuego()
 {
-    let juego = new Juego()
+    let juego = new Juego();
+    juego.iniciarJuego();
 }
 
 function reiniciarJuego()
 {
-    botonInicio.classList.remove('hiden')
+    let juego = new Juego();
+    juego.inicializar();
+    juego.resetearBotones();
+    botonInicio.classList.remove('hiden');
 }
