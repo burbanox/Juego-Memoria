@@ -18,13 +18,14 @@ class Juego
 
     iniciarJuego()
     {
+        console.log('Metodo : iniciarJuego()');
         this.inicializar();
-        this.generarSecuencia();
         this.siguienteNivel();
     }
 
     inicializar() 
     {
+        console.log('Metodo : inicializar()');
         botonInicio.classList.add('hiden');
         this.subnivel = 0;
         this.colores = 
@@ -40,11 +41,13 @@ class Juego
 
     generarSecuencia() 
     {
-        this.numeros = new Array(10).fill(0).map(n=> Math.floor(Math.random()*4))
+        console.log('Metodo : generarSecuencia()');
+        this.numeros = new Array(this.nivel).fill(0).map(n=> Math.floor(Math.random()*4))
     }
 
     transformarSecuencia(numero)
     {
+        console.log('Metodo : transformarSecuencia()');
         switch(numero)
         {
             case 0 :
@@ -60,12 +63,15 @@ class Juego
 
     siguienteNivel()
     {
+        console.log('Metodo : siguienteNivel()');
+        this.generarSecuencia();
         this.iluminarSecuencia();
         this.agregarEventosClick();
     }
 
     iluminarSecuencia()
     {
+        console.log('Metodo : iluminarSecuencia()');
         for(let i = 0;i<this.nivel;i++)
         {
             const color = this.transformarSecuencia(this.numeros[i]);
@@ -76,6 +82,7 @@ class Juego
     
     iluminarColor(color)
     {
+        console.log('Metodo : iluminarColor()');
         switch(color)
         {
             case 'redSection':
@@ -96,6 +103,7 @@ class Juego
 
     agregarMouseDown()
     {
+        console.log('Metodo : agregarMouseDown()');
         this.agregarApuntador();
         this.colores.blueSection.onmousedown = this.eventoMouseDown;
         this.colores.redSection.onmousedown = this.eventoMouseDown;
@@ -113,6 +121,7 @@ class Juego
 
     agregarApuntador()
     {
+        console.log('Metodo : agregarApuntador()');
         this.colores.redSection.classList.add('apuntar');
         this.colores.blueSection.classList.add('apuntar');
         this.colores.greenSection.classList.add('apuntar');
@@ -121,6 +130,7 @@ class Juego
 
     removerApuntadores()
     {
+        console.log('Metodo : removerApuntadores()');
         this.colores.redSection.classList.remove('apuntar');
         this.colores.blueSection.classList.remove('apuntar');
         this.colores.greenSection.classList.remove('apuntar');
@@ -129,11 +139,13 @@ class Juego
 
     eventoMouseDown(ev)
     {
+        console.log('Metodo : eventoMouseDown()');
         const COLOR_OBTENIDO = ev.target.dataset.color;
         this.hoverColor(COLOR_OBTENIDO);
     }
     removerMauseDown()
     {
+        console.log('Metodo : removerMauseDown()');
         this.colores.blueSection.onmousedown = undefined;
         this.colores.redSection.onmousedown = undefined;
         this.colores.greenSection.onmousedown = undefined;
@@ -141,13 +153,28 @@ class Juego
     }
     eventoMouseUp(ev)
     {
+        console.log('Metodo : eventoMouseUp()');
         const COLOR_OBTENIDO = ev.target.dataset.color;
         let colors = this.dataColorClase(COLOR_OBTENIDO);
         this.apagarColor(colors);
     }
 
+    removerLeaveUp()
+    {
+        console.log('Metodo : removerLeaveUp()');
+        this.colores.blueSection.onmouseup = undefined;
+        this.colores.redSection.onmouseup = undefined;
+        this.colores.greenSection.onmouseup = undefined;
+        this.colores.purpleSection.onmouseup = undefined;
+        this.colores.blueSection.onmouseleave = undefined;
+        this.colores.redSection.onmouseleave = undefined;
+        this.colores.greenSection.onmouseleave = undefined;
+        this.colores.purpleSection.onmouseleave = undefined;
+    }
+
     colorNormal(ev)
     {
+        console.log('Metodo : colorNormal()');
         const COLOR = ev.target.dataset.color;
         let colors;
         switch(COLOR)
@@ -170,6 +197,7 @@ class Juego
 
     hoverColor(color)
     {
+        console.log('Metodo : hoverColor()');
         switch(color)
         {
             case 'rojo':
@@ -190,6 +218,7 @@ class Juego
 
     apagarColor(color)
     {
+        console.log('Metodo : apagarColor()');
         switch(color)
         {
             case 'redSection':
@@ -209,6 +238,7 @@ class Juego
 
     agregarEventosClick()
     {
+        console.log('Metodo : agregarEventosClick()');
         this.colores.blueSection.addEventListener('click',this.elegirColor)
         this.colores.redSection.addEventListener('click',this.elegirColor)
         this.colores.greenSection.addEventListener('click',this.elegirColor)
@@ -216,19 +246,39 @@ class Juego
     }
     removerEventosClick()
     {
+        console.log('Metodo : removerEventosClick()');
         this.colores.blueSection.removeEventListener('click',this.elegirColor)
         this.colores.redSection.removeEventListener('click',this.elegirColor)
         this.colores.greenSection.removeEventListener('click',this.elegirColor)
         this.colores.purpleSection.removeEventListener('click',this.elegirColor)
     }
+
     elegirColor(ev)
     {
+        console.log('Metodo : elegirColor()');
         const COLOR_OBTENIDO = ev.target.dataset.color;
         var numero = this.trasformarColorNumero(COLOR_OBTENIDO);
+        if(numero===this.numeros[this.subnivel])
+        {
+            if(this.subnivel===this.nivel-1)
+            {
+                this.resetearJuego();
+                this.nivel++;
+                setTimeout(()=>this.siguienteNivel(),500)
+            } else
+            {
+                this.subnivel++;
+            }
+        } else
+        {
+            alert('YOU DIED');
+            this.resetearJuego();
+        }
     }
 
     dataColorClase(color)
     {
+        console.log('Metodo : dataColorClase()');
         let colors;
         switch(color)
         {
@@ -250,6 +300,7 @@ class Juego
 
     trasformarColorNumero(color)
     {
+        console.log('Metodo : trasformarColorNumero()');
         switch(color)
         {
             case 'rojo' :
@@ -265,7 +316,9 @@ class Juego
 
     resetearJuego()
     {
+        console.log('Metodo : resetearJuego()');
         this.inicializar();
+        this.removerLeaveUp();
         this.removerApuntadores();
         this.removerEventosClick();
         this.removerMauseDown();
