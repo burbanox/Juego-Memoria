@@ -10,13 +10,61 @@ html
     font-size: 62.5%;
 }
 
+header h1
+{
+    font-size: 3.0rem;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    color: #EBDFA2;
+}
+
 body 
 {
     display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 100vh;
+    position: relative;
+    background-image: url('https://fondosmil.com/fondo/25819.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+footer
+{
+    margin-top: 20px;
+    width: 100vw;
+    background-color: #FF3B1D;
+    height: 75px;
+    display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    position: relative;
+}
+
+footer p 
+{
+    font-size: 1.7rem;
+    color: white;
+    font-weight: 700;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+footer p a
+{
+    text-decoration: none;
+    color: #77F52A;
+}
+
+footer p a:hover
+{
+    color: purple;
+}
+
+footer p a:active
+{
+    color: red;
 }
 
 .contenedor-principal 
@@ -36,25 +84,25 @@ body
 
 .rojo 
 {
-    background-color: red;
+    background-color: #FF3B1D;
     border-radius: 100% 0 0 0;
 }
 
 .azul 
 {
-    background-color: blue;
+    background-color: #1C2EF5;
     border-radius: 0 0 100% 0;
 }
 
 .morado
 {
-    background-color: purple;
+    background-color: #6300F5;
     border-radius: 0 0 0 100%;
 }
 
 .verde 
 {
-    background-color: green;
+    background-color: #77F52A;
     border-radius: 0 100% 0 0;
 }
 
@@ -79,6 +127,7 @@ body
     top: 50%;
     right: 50%;
     transform: translate(50%,-50%);
+    background-color: #EBDFA2;
 }
 
 .boton-reinicio
@@ -86,7 +135,7 @@ body
     position: absolute;
     top: 10%;
     left: 5%;
-    background-color: #8ee4ec;
+    background-color: #EBDFA2;
 }
 
 .hiden 
