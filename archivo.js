@@ -22,7 +22,6 @@ class Juego
         this.inicializar();
         this.siguienteNivel();
     }
-
     inicializar() 
     {
         console.log('Metodo : inicializar()');
@@ -35,10 +34,16 @@ class Juego
             blueSection,
             purpleSection
         }
-
         this.intervalo = 500; //intervalo entre encedido y apagado de colores
     }
-
+    resetearBotones()
+    {
+        console.log('removiendo hover ')
+        this.colores.blueSection.onmouseover = undefined;
+        this.colores.redSection.onmouseover = undefined;
+        this.colores.greenSection.onmouseover = undefined;
+        this.colores.purpleSection.onmouseover = undefined;
+    }
     generarSecuencia() 
     {
         console.log('Metodo : generarSecuencia()');
@@ -66,7 +71,7 @@ class Juego
         console.log('Metodo : siguienteNivel()');
         this.generarSecuencia();
         this.iluminarSecuencia();
-        this.agregarEventosClick();
+        setTimeout(()=>this.agregarEventosClick(),1000 + this.intervalo*2*this.nivel)
     }
 
     iluminarSecuencia()
@@ -211,7 +216,7 @@ class Juego
                 break;
             case 'morado':
                 this.colores.purpleSection.classList.add('sombreado-purpura');
-                     break;
+                break;
         }
 
     }
