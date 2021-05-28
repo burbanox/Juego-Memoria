@@ -71,7 +71,7 @@ class Juego
         console.log('Metodo : siguienteNivel()');
         this.generarSecuencia();
         this.iluminarSecuencia();
-        this.agregarEventosClick();
+        setTimeout(()=>this.agregarEventosClick(),1000 + this.intervalo*2*this.nivel)
     }
 
     iluminarSecuencia()
